@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.classList.add('js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReportDeck | Hands-on reporting pilot for paid ad agencies</title>
+  <meta name="description" content="A no-charge hands-on pilot: one agency, one client account, one completed reporting period. We prepare a reviewed branded report from the metric files you supply. No ad-account access is requested.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+      :root {
+      --bg: #FFFFFF;
+      --surface: #FFFFFF;
+      --surface-alt: #F8FAFC;
+      --surface-elevated: #F8FAFC;
+      --border: #E2E8F0;
+      --border-focus: #0b5563;
+      --text-main: #0F172A;
+      --text-bright: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #475569;
+      --primary: #0b5563;
+      --primary-hover: #084a56;
+      --accent: #0F766E;
+      --success: #15803D;
+      --danger: #B91C1C;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* HEADER / NAVIGATION */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      background: #0b5563;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--text-main);
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    .nav-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-outline {
+      background: rgba(15, 23, 42, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: rgba(15, 23, 42, 0.08);
+      border-color: rgba(15, 23, 42, 0.16);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(11, 85, 99, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 6px 20px rgba(11, 85, 99, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(11, 85, 99, 0.12);
+      border: 1px solid rgba(11, 85, 99, 0.3);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    h1 {
+      font-size: 68px;
+      font-weight: 800;
+      letter-spacing: -1.8px;
+      line-height: 1.12;
+      max-width: 900px;
+      margin: 0 auto 24px;
+    }
+
+    .subheading {
+      font-size: 20px;
+      color: var(--text-secondary);
+      max-width: 720px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+
+    /* PRODUCT SHOT: page 1 of the synthetic sample report, labelled as sample output */
+    .product-shot {
+      margin: 0 auto 90px;
+      max-width: 1000px;
+    }
+
+    .sample-figure {
+      margin: 0 auto;
+      max-width: 1000px;
+    }
+
+    .sample-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+    }
+
+    .sample-caption {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .sample-caption strong {
+      color: var(--text-main);
+    }
+
+    .product-shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+    }
+
+    /* SOCIAL PROOF / METRICS BAR */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 80px;
+    }
+
+    .metric-item {
+      text-align: center;
+    }
+
+    .metric-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-main);
+      font-family: var(--mono);
+      margin-bottom: 4px;
+    }
+
+    .metric-num.highlight {
+      color: var(--accent);
+    }
+
+    .metric-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* PRODUCT PREVIEW / WORKFLOW */
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 64px;
+    }
+
+    .section-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      line-height: 1.12;
+      margin-bottom: 18px;
+    }
+
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 17px;
+    }
+
+    /* COMPARISON TABLE */
+    .compare-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      margin-bottom: 90px;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .compare-table th {
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .compare-table td {
+      padding: 18px 20px;
+      font-size: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .compare-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .col-agency {
+      color: #B91C1C;
+      font-weight: 500;
+    }
+
+    .col-reportdeck {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* COMPARISON TABLE: aligned rows and headers (desktop); each row stacks under its label on phones */
+    .compare-table th {
+      text-align: left;
+      vertical-align: bottom;
+    }
+
+    .compare-table tbody tr {
+      height: 92px;
+    }
+
+    .compare-table td {
+      vertical-align: middle;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .compare-container {
+        padding: 16px;
+      }
+
+      .compare-table thead {
+        display: none;
+      }
+
+      .compare-table,
+      .compare-table tbody,
+      .compare-table tr,
+      .compare-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .compare-table tbody tr {
+        height: auto;
+        padding: 14px 4px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .compare-table tr:last-child {
+        border-bottom: none;
+      }
+
+      .compare-table td {
+        border: none;
+        padding: 4px 0;
+      }
+
+      .compare-table td[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        margin-bottom: 2px;
+      }
+    }
+
+    /* VIBRANT LAYER: hero glow, product carousel, scroll reveal, button states, reduced motion */
+    .hero { position: relative; isolation: isolate; }
+    .hero::before, .hero::after {
+      content: ""; position: absolute; z-index: -1; pointer-events: none;
+      width: min(640px, 90vw); height: 440px; left: 50%; top: -60px;
+      border-radius: 50%;
+    }
+    .hero::before {
+      transform: translateX(-50%);
+      background: radial-gradient(closest-side, rgba(11, 85, 99, 0.38), transparent);
+      animation: glow-drift 9s ease-in-out infinite alternate;
+    }
+    .hero::after {
+      top: 120px;
+      transform: translate(-50%, 0);
+      background: radial-gradient(closest-side, rgba(11, 85, 99, 0.22), transparent);
+      animation: glow-drift-warm 12s ease-in-out infinite alternate;
+    }
+    @keyframes glow-drift-warm {
+      from { transform: translate(-62%, 0) scale(1); }
+      to   { transform: translate(-38%, -20px) scale(1.06); }
+    }
+    @keyframes glow-drift {
+      from { transform: translate(-50%, 0) scale(1); }
+      to   { transform: translate(-42%, 24px) scale(1.1); }
+    }
+
+    .carousel {
+      max-width: 1000px; margin: 0 auto; overflow: hidden;
+      border-radius: 14px; border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+      background: var(--surface);
+    }
+    .carousel-track {
+      display: flex; width: 600%;
+      animation: carousel-loop 24s linear infinite;
+    }
+    .carousel:hover .carousel-track,
+    .carousel:focus-within .carousel-track { animation-play-state: paused; }
+    .carousel-slide { flex: 0 0 16.6667%; margin: 0; min-width: 0; }
+    .carousel-slide img { display: block; width: 100%; height: auto; }
+    @keyframes carousel-loop {
+      0%, 13.3333%    { transform: translateX(0); }
+      16.6667%, 29.9999% { transform: translateX(-16.6667%); }
+      33.3333%, 46.6666% { transform: translateX(-33.3333%); }
+      50%, 63.3333%   { transform: translateX(-50%); }
+      66.6667%, 79.9999% { transform: translateX(-66.6667%); }
+      83.3333%, 100%  { transform: translateX(-83.3333%); }
+    }
+
+    .js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .js .reveal.in-view { opacity: 1; transform: none; }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0) scale(0.98); }
+    .btn-primary:hover { background: var(--primary-hover); color: #ffffff; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero::before, .hero::after, .carousel-track { animation: none; }
+      .carousel { overflow-x: auto; scroll-snap-type: x mandatory; }
+      .carousel-slide { scroll-snap-align: start; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .btn, .btn:hover, .btn:active { transition: none; transform: none; }
+    }
+
+    /* SUPPORTING PHOTOS (approved): not full-bleed, not behind text */
+    .photo-support { margin: 0 auto 36px; max-width: 560px; }
+    .photo-support img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12); }
+
+    .photo-note { margin-top: 8px; font-size: 12px; color: var(--text-muted); text-align: center; line-height: 1.4; }
+    .photo-portrait { max-width: 360px; }
+    .photo-credit { margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: center; }
+    .photo-credit a { color: inherit; text-decoration: underline; }
+
+    /* HERO PHOTO: full-width background under the text, with a uniform dark overlay for AA contrast */
+    .hero-photo {
+      border-radius: 28px;
+      padding: 80px 28px 60px;
+      background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.92) 100%),
+        url("assets/hero-presenter-2000.jpg") center / cover no-repeat;
+    }
+    .hero-caption { margin-bottom: 24px; }
+    .hero-photo .metric-text { color: var(--text-secondary); }
+
+    /* INTERACTIVE DECK PREVIEW CARD */
+    .deck-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 90px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .deck-header {
+      background: var(--surface-elevated);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .deck-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .deck-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #B91C1C; }
+    .dot-yellow { background: #475569; }
+    .dot-green { background: #475569; }
+
+    .deck-title {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .deck-body {
+      padding: 36px;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-box {
+      background: rgba(15, 23, 42, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .kpi-val {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      font-family: var(--mono);
+    }
+
+    .kpi-tag {
+      font-size: 12px;
+      margin-top: 4px;
+      color: var(--success);
+      font-weight: 500;
+    }
+
+    .alert-banner {
+      background: rgba(11, 85, 99, 0.1);
+      border: 1px solid rgba(11, 85, 99, 0.3);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: #0b5563;
+    }
+
+    .narrative-block {
+      background: rgba(15, 23, 42, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    .narrative-block strong {
+      color: var(--text-main);
+    }
+
+    /* HOW IT WORKS (3 STEPS) */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-bottom: 90px;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      position: relative;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(11, 85, 99, 0.15);
+      border: 1px solid rgba(11, 85, 99, 0.3);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .step-card h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* PRICING */
+    .billing-toggle-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 0 auto 40px;
+    }
+    .billing-toggle-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.2s ease;
+      user-select: none;
+    }
+    .billing-toggle-label.active {
+      color: var(--text-main);
+    }
+    .billing-switch {
+      position: relative;
+      width: 58px;
+      height: 32px;
+      background: rgba(15, 23, 42, 0.12);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .billing-switch.annual {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .billing-switch-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+    }
+    .billing-switch.annual .billing-switch-slider {
+      transform: translateX(26px);
+    }
+    .discount-badge {
+      display: inline-block;
+      background: rgba(21, 128, 61, 0.15);
+      border: 1px solid rgba(21, 128, 61, 0.4);
+      color: #15803D;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-left: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 90px;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 28px;
+      text-align: left;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pricing-card.featured {
+      border: 2px solid rgba(11, 85, 99, 0.6);
+      background: linear-gradient(180deg, #ffffff 0%, #ffffff 100%);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      transform: translateY(-4px);
+    }
+
+    .pricing-badge-top {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 14px;
+      border-radius: 999px;
+    }
+
+    .tier-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .tier-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      min-height: 38px;
+    }
+
+    .price-amount {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      font-family: var(--mono);
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .price-period {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .features-list {
+      list-style: none;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-grow: 1;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: #475569;
+    }
+
+    .check-svg {
+      color: var(--success);
+      flex-shrink: 0;
+    }
+
+    /* ABOUT US SECTION */
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px;
+      margin-bottom: 90px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-text h3 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .about-text p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    .founder-note {
+      border-left: 3px solid var(--primary);
+      padding-left: 18px;
+      margin-top: 24px;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .about-box-right {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    .about-box-right h4 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .about-box-right ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* FAQ SECTION */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto 90px;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 20px 24px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-answer {
+      padding: 0 24px 20px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .faq-toggle {
+      font-size: 18px;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.active .faq-toggle {
+      transform: rotate(45deg);
+    }
+
+    /* CONTACT / AUDIT MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      max-width: 520px;
+      width: 100%;
+      padding: 36px;
+      position: relative;
+      box-sizing: border-box;
+      max-height: calc(100vh - 40px);
+      max-height: calc(100dvh - 40px);
+      overflow-y: auto;
+    }
+
+    @media (max-width: 600px) {
+      .modal-overlay { padding: 12px; }
+      .modal-card {
+        padding: 24px 20px;
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - 24px);
+      }
+    }
+
+    .modal-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .modal-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .deck-choices {
+      border: none;
+      margin: 0 0 14px 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .deck-legend {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      padding: 0;
+    }
+
+    .deck-choice {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 48px;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .deck-choice:hover {
+      border-color: var(--primary);
+    }
+
+    .deck-choice:has(input:checked) {
+      border-color: var(--primary);
+      background: #F0FDFA;
+      box-shadow: inset 0 0 0 1px var(--primary);
+    }
+
+    .deck-choice input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 20px;
+      margin: 0;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .deck-choice:focus-within {
+      outline: 3px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    .deck-status {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 6px 0 14px 0;
+      min-height: 20px;
+    }
+
+    .deck-show {
+      width: 100%;
+      min-height: 48px;
+    }
+
+    .deck-show:disabled,
+    .deck-show:disabled:hover,
+    .deck-show:disabled:active {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+      background: var(--primary);
+    }
+
+    .deck-close {
+      width: 100%;
+      min-height: 44px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .deck-close:focus-visible,
+    .deck-show:focus-visible {
+      outline: 3px solid var(--border-focus);
+      outline-offset: 2px;
+    }
+
+    .deck-preview {
+      margin-top: 16px;
+    }
+
+    .deck-preview[hidden] {
+      display: none;
+    }
+
+    .deck-preview-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .deck-preview img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .deck-preview-note {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    .form-field {
+      margin-bottom: 18px;
+    }
+
+    .form-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+    }
+
+    .form-field input, .form-field select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .form-field input:focus, .form-field select:focus {
+      border-color: var(--border-focus);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-main);
+    }
+
+    @media (max-width: 868px) {
+      h1 { font-size: 44px; }
+      .nav-links { display: none; }
+      .metrics-bar { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Narrow phones: header wraps (logo row, then CTA row); stats keep one line */
+    @media (max-width: 600px) {
+      .nav-container {
+        height: auto;
+        flex-wrap: wrap;
+        row-gap: 12px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+      .nav-cta-group {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .nav-cta-group .btn {
+        flex: 1 1 150px;
+        white-space: nowrap;
+        font-size: 13px;
+        padding: 9px 12px;
+      }
+      .metric-num {
+        font-size: 26px;
+        white-space: nowrap;
+      }
+    }
+  
+    /* LIGHT BASE: hero glow off; the hero photo sits under a light overlay; no coloured blocks */
+    .hero::before, .hero::after { display: none; }
+    .hero-photo {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.93) 100%),
+        url("assets/hero-presenter-2000.jpg") center / cover no-repeat;
+    }
+    .hero-photo .metric-text, .hero-photo .subheading { color: var(--text-secondary); }
+    .btn-primary, .btn-primary:hover, .btn-primary:active { color: #ffffff; }
+    .pricing-badge-top { color: #ffffff; }
+    .section-header h2, h1, h2, h3 { color: var(--text-main); }
+    body { background: #ffffff; }
+
+    /* CALM PALETTE: white page, #F8FAFC alternate sections, navy primary, teal eyebrow highlights only */
+    .btn-outline { background: #FFFFFF; border: 1px solid #0b5563; color: #0b5563; }
+    .btn-outline:hover { background: #F8FAFC; border-color: #084a56; color: #084a56; }
+    .btn-primary { background: #0b5563; color: #FFFFFF; box-shadow: none; }
+    .btn-primary:hover { background: #084a56; color: #FFFFFF; box-shadow: none; }
+    .section-eyebrow, .metric-num.highlight { color: #0F766E; }
+    .pricing-badge-top { background: #0F766E; color: #FFFFFF; }
+    .hero::before, .hero::after { display: none; }
+    section#how-it-works, section#faq {
+      background: #F8FAFC;
+      border-radius: 20px;
+      padding: 56px 28px;
+    }
+    .hero-photo {
+      background:
+        radial-gradient(ellipse 75% 85% at 50% 50%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.66) 60%, rgba(255, 255, 255, 0.5) 100%),
+        url("assets/hero-presenter-2000.jpg") center / cover no-repeat;
+    }
+    .badge-pill { color: #0F172A; background: #FFFFFF; border: 1px solid #E2E8F0; }
+    .badge-pill .status-dot { background: #0F766E; box-shadow: none; }
+    .step-num { color: #0b5563; background: #FFFFFF; border: 1px solid #E2E8F0; }
+    .discount-badge { color: #166534; background: #FFFFFF; border: 1px solid #E2E8F0; }
+      /* CHART (aligned): inside the comparison container, same width as the table, no box, teal only */
+    .compare-container .illus { margin: 0 0 28px; max-width: none; width: 100%; }
+    .compare-container .illus svg { border-radius: 0; box-shadow: none; background: transparent; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="brand">
+        <div class="brand-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="3" width="15" height="11" rx="2" fill="white" fill-opacity="0.35"/>
+            <rect x="5" y="6" width="15" height="11" rx="2" fill="white" fill-opacity="0.6"/>
+            <rect x="8" y="9" width="14" height="12" rx="2.5" fill="white"/>
+            <path d="M11 15L13.5 12.5L16 15L19 11.5" stroke="#0f766e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="19" cy="11.5" r="1" fill="#0f766e"/>
+          </svg>
+        </div>
+        <span class="brand-name">ReportDeck</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#sample-report">Sample Report</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+
+      <div class="nav-cta-group">
+        <a href="#deck-chooser" onclick="openDeckChooser(event)" class="btn btn-outline">Sample Client Deck</a>
+        <button onclick="openModal()" class="btn btn-primary">Request a no-charge sample</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- HERO -->
+    <section class="hero hero-photo">
+      <div class="badge-pill">
+        <span class="status-dot"></span>
+        Hands-on pilot for paid social and search agencies
+      </div>
+
+      <h1>
+        Stop losing Mondays to <br>
+        manual client reporting.
+      </h1>
+
+      <p class="subheading">
+We turn one completed week of your agency's metric files into a reviewed, branded client report. Our team prepares it by hand, and your team approves everything before a client sees it. No ad-account access is requested.
+</p>
+
+      <div class="hero-buttons">
+        <button onclick="openModal()" class="btn btn-primary btn-lg">Request a no-charge sample</button>
+        <a href="#deck-chooser" onclick="openDeckChooser(event)" class="btn btn-outline btn-lg">View Sample Client Deck</a>
+      </div>
+
+      <!-- METRICS BAR -->
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <div class="metric-num highlight">Free pilot</div>
+          <div class="metric-text">One agency, one client account, one finished reporting period, at no charge.</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-num">No</div>
+          <div class="metric-text">Ad-account logins, OAuth or card details requested</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-num highlight">$0</div>
+          <div class="metric-text">The sample is free.</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-num">Scale</div>
+          <div class="metric-text">White-label branding on Scale only; not active by default</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT SHOT (page 1 of the synthetic sample report) -->
+    
+
+
+    <!-- THE PROBLEM / COMPARISON -->
+    <section class="reveal" style="margin-bottom: 90px;">
+      <div class="section-header">
+        <div class="section-eyebrow">The Monday Morning Problem</div>
+        <h2>Dashboards don't write client decks. Humans do.</h2>
+        <p>Your agency pays for Looker Studio, AgencyAnalytics, or Databox. But your clients still expect a branded deck with real commentary every Monday morning.</p>
+      </div>
+
+      <figure class="photo-support"><img src="assets/brainstorm-team-1200.jpg" width="1200" height="675" loading="lazy" alt="Two people planning on a chalkboard."></figure>
+      <div class="compare-container">
+        <figure class="illus" role="img" aria-label="Line and bar graphic showing a rising trend. It shows no figures."><svg viewBox="0 0 640 200" width="100%" aria-hidden="true" focusable="false" style="display:block"><line x1="0" y1="190" x2="640" y2="190" stroke="#0f766e" stroke-width="2"/><rect x="30" y="130" width="56" height="60" rx="6" fill="#0f766e"/><rect x="128" y="112" width="56" height="78" rx="6" fill="#0f766e"/><rect x="226" y="92" width="56" height="98" rx="6" fill="#0f766e"/><rect x="324" y="74" width="56" height="116" rx="6" fill="#0f766e"/><rect x="422" y="52" width="56" height="138" rx="6" fill="#0f766e"/><rect x="520" y="34" width="56" height="156" rx="6" fill="#0f766e"/><polyline points="58,120 156,100 254,80 352,62 450,40 548,22" fill="none" stroke="#0b5563" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="548" cy="22" r="6" fill="#0b5563"/></svg></figure>
+      
+        <table class="compare-table">
+<colgroup><col style="width: 30%;"><col style="width: 35%;"><col style="width: 35%;"></colgroup>
+<thead><tr><th style="width: 30%;">The Workflow Step</th><th style="width: 35%;">Traditional Agency Monday</th><th style="width: 35%;">With the pilot (manual, file-based)</th></tr></thead>
+<tbody>
+<tr><td><strong>Metric gathering</strong></td><td class="col-agency" data-label="Traditional Agency Monday">Exports and numbers copied by hand</td><td class="col-reportdeck" data-label="With the pilot (manual, file-based)">You send exports in our template; we check them against your declared totals</td></tr>
+<tr><td><strong>Performance analysis</strong></td><td class="col-agency" data-label="Traditional Agency Monday">Dashboards read by eye</td><td class="col-reportdeck" data-label="With the pilot (manual, file-based)">Totals reconciled; flags against the four-week baseline where you supply one</td></tr>
+<tr><td><strong>Deck formatting</strong></td><td class="col-agency" data-label="Traditional Agency Monday">Charts resized and recoloured by hand</td><td class="col-reportdeck" data-label="With the pilot (manual, file-based)">A branded draft prepared from the files</td></tr>
+<tr><td><strong>Internal review</strong></td><td class="col-agency" data-label="Traditional Agency Monday">Approvals chased in team chat</td><td class="col-reportdeck" data-label="With the pilot (manual, file-based)">Draft and checks list go to your reviewer before any client sees them</td></tr>
+</tbody></table>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE SAMPLE DECK PREVIEW -->
+    <section class="reveal" id="sample-report" style="margin-bottom: 90px;">
+      <div class="section-header">
+        <div class="section-eyebrow">Deliverable Preview</div>
+        <h2>What your clients actually receive.</h2>
+        <p>A high-contrast, executive-ready deck layout.</p>
+      </div>
+
+      <figure class="photo-support"><img src="assets/paid-search-1200.jpg" width="1200" height="864" loading="lazy" alt="A paid-search dashboard on a screen, with tiles for click-through rate, cost per conversion and quality score, and trend lines."><figcaption class="photo-note">Illustrative stock photo. Not ReportDeck data.</figcaption></figure>
+      </section>
+
+    <!-- HOW IT WORKS (3 STEPS) -->
+<section class="reveal" id="how-it-works" style="margin-bottom: 90px;">
+<div class="section-header">
+<div class="section-eyebrow">How the pilot works</div>
+<h2>Manual and file-based. No ad accounts are connected.</h2>
+<p>You send files, we prepare a draft by hand, and your team decides what happens next.</p>
+</div>
+<figure class="photo-support"><img src="assets/screen-dashboard-1200.jpg" width="1200" height="732" loading="lazy" alt="Web analytics dashboard with coloured summary tiles and a line chart over six months."><figcaption class="photo-note">Illustrative stock photo. Not ReportDeck data.</figcaption></figure>
+<figure class="photo-support photo-portrait"><img src="assets/kaffie-portrait-720.jpg" width="720" height="900" loading="lazy" alt="A man in profile writes on a planning wall with a marker, beside colour-wheel and printed illustration cards."></figure>
+<div class="steps-grid">
+<div class="step-card">
+<div class="step-num">01</div>
+<h3>You send your files</h3>
+<p>Aggregate campaign metrics for one client and one completed period, in our template: dates, currency (USD), timezone and attribution basis. No passwords, OAuth access or payment card data.</p>
+</div>
+<div class="step-card">
+<div class="step-num">02</div>
+<h3>We check and prepare</h3>
+<p>Each file is validated and totals are reconciled to any totals you declare. Missing or zero data is shown, not filled in. You get a draft report with a sources, period and limitations section.</p>
+</div>
+<div class="step-card">
+<div class="step-num">03</div>
+<h3>You review and decide</h3>
+<p>Your team checks the draft and decides what goes to clients. Campaign actions are recommendations you approve. Nothing is sent or changed in your ad accounts automatically.</p>
+</div>
+</div>
+</section>
+<!-- PRICING -->
+    <section class="reveal" id="pricing">
+      <div class="section-header">
+        <div class="section-eyebrow">Predictable Retainers</div>
+        <h2>Flat rates that scale with your agency.</h2>
+        <p>No per-seat licenses. No usage surprise invoices. Choose monthly flexibility or save 20% with annual billing.</p>
+      </div>
+
+      <!-- BILLING TOGGLE -->
+      <div class="billing-toggle-wrapper">
+        <span class="billing-toggle-label active" id="labelMonthly" onclick="setBilling('monthly')">Monthly Billing</span>
+        <div class="billing-switch" id="billingSwitch" onclick="toggleBilling()" role="button" aria-label="Toggle Monthly and Annual Billing">
+          <div class="billing-switch-slider"></div>
+        </div>
+        <span class="billing-toggle-label" id="labelAnnual" onclick="setBilling('annual')">
+          Annual Billing <span class="discount-badge">Save 20%</span>
+        </span>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- TIER 1: STARTER -->
+        <div class="pricing-card">
+          <div>
+            <div class="tier-name">Starter Desk</div>
+            <div class="tier-desc">Perfect for boutique agencies and emerging growth shops.</div>
+            <div class="price-amount" id="starterPrice">$1,250</div>
+            <div class="price-period" id="starterPeriod">per month • Flat fee • Cancel anytime</div>
+
+            <ul class="features-list">
+<li><span class="check-svg">✓</span> <span><strong>Up to 15 ad accounts you manage</strong> (you tell us; we don't connect to them)</span></li>
+<li><span class="check-svg">✓</span> <span>Branded report from your files, reviewed by your team</span></li>
+<li><span class="check-svg">✓</span> <span>Sources, period and limitations section</span></li>
+<li><span class="check-svg">✓</span> <span>Anomaly alerts from the four-week baseline (CPA, ROAS and CTR), where you supply one</span></li>
+<li><span class="check-svg">✓</span> <span>Recommended actions from the alerts, for your approval</span></li>
+<li><span class="check-svg">✓</span> <span>Email support (response times agreed at onboarding)</span></li>
+</ul>
+          </div>
+
+          <div>
+            <button onclick="openModal()" class="btn btn-outline" style="width: 100%; padding: 12px;">
+              Request a no-charge sample
+            </button>
+          </div>
+        </div>
+
+        <!-- TIER 2: GROWTH (FEATURED) -->
+        <div class="pricing-card featured">
+          <div class="pricing-badge-top">Most Popular</div>
+          <div>
+            <div class="tier-name">Growth Desk</div>
+            <div class="tier-desc">Built for established agencies scaling multiple media teams.</div>
+            <div class="price-amount" id="growthPrice">$1,950</div>
+            <div class="price-period" id="growthPeriod">per month • Flat fee • Cancel anytime</div>
+
+            <ul class="features-list">
+<li><span class="check-svg">✓</span> <span><strong>16-35 ad accounts you manage</strong> (you tell us; we don't connect to them)</span></li>
+<li><span class="check-svg">✓</span> <span>Everything in Starter</span></li>
+<li><span class="check-svg">✓</span> <span><strong>Creative fatigue and winner analysis</strong></span></li>
+<li><span class="check-svg">✓</span> <span><strong>Budget pacing (Growth and Scale only)</strong></span></li>
+<li><span class="check-svg">✓</span> <span>ROAS contribution by channel</span></li>
+<li><span class="check-svg">✓</span> <span>Spend-versus-revenue share by channel</span></li>
+<li><span class="check-svg">✓</span> <span>Target ROAS and target CPA lines; scale, fix and cut classes per campaign (when you supply a target)</span></li>
+<li><span class="check-svg">✓</span> <span>MER, blended CAC and new-customer share (when you supply the totals)</span></li>
+<li><span class="check-svg">✓</span> <span>Top-three campaign concentration</span></li>
+<li><span class="check-svg">✓</span> <span>Budget-shift recommendation, for your approval</span></li>
+</ul>
+          </div>
+
+          <div>
+            <button onclick="openModal()" class="btn btn-primary" style="width: 100%; padding: 14px; font-weight: 700;">
+              Request a no-charge sample
+            </button>
+          </div>
+        </div>
+
+        <!-- TIER 3: SCALE / ENTERPRISE -->
+        <div class="pricing-card">
+          <div>
+            <div class="tier-name">Scale / Custom</div>
+            <div class="tier-desc">For agencies with 36-50 accounts, or 51+ on a custom scope.</div>
+            <div class="price-amount" id="scalePrice">$3,250<span style="font-size: 20px; font-weight: 400; color: var(--text-muted);">+</span></div>
+            <div class="price-period" id="scalePeriod">per month • Flat fee (+$65/acct above 50)</div>
+
+            <ul class="features-list">
+<li><span class="check-svg">✓</span> <span><strong>36-50 ad accounts you manage</strong> (you tell us; we don't connect to them); 51+ on a custom scope (+$65 per account above 50)</span></li>
+<li><span class="check-svg">✓</span> <span>Everything in Growth</span></li>
+<li><span class="check-svg">✓</span> <span>Campaign comparison: all campaigns side by side</span></li>
+<li><span class="check-svg">✓</span> <span>Side-by-side channel view</span></li>
+<li><span class="check-svg">✓</span> <span><strong>White-label branding</strong> on your cover (your agency name, logo and colours)</span></li>
+<li><span class="check-svg">✓</span> <span>CEO portfolio health rollup, sent to your CEO with the deck (performance risk, not churn prediction)</span></li>
+<li><span class="check-svg">✓</span> <span>Account-manager talking points (internal only; never in a client deck)</span></li>
+</ul>
+          </div>
+
+          <div>
+            <a href="mailto:support@getreportdeck.com" class="btn btn-outline" style="width: 100%; padding: 12px;">Ask about Scale scope</a>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-secondary); margin: -50px 0 60px 0; text-align: center;">Pilot status: no-charge single-account sample, delivered by hand from files you supply. Live platform connections and automatic sending are not included in any price.</p>
+<!-- COMMUNICATION MATRIX -->
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 36px 32px; margin-bottom: 90px;">
+        <div style="text-align: center; max-width: 700px; margin: 0 auto 28px;">
+          <div class="section-eyebrow" style="color: var(--primary);">What each plan includes</div>
+          <h3 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 8px;">Feature matrix</h3>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left;"><thead><tr><th style="padding: 12px 14px; color: #0f172a; border-bottom: 1px solid var(--border);">Feature</th><th style="padding: 12px 14px; color: #0f172a; text-align: center; border-bottom: 1px solid var(--border);">Starter</th><th style="padding: 12px 14px; color: #0f172a; text-align: center; border-bottom: 1px solid var(--border);">Growth</th><th style="padding: 12px 14px; color: #0f172a; text-align: center; border-bottom: 1px solid var(--border);">Scale</th></tr></thead><tbody><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Branded report from your files (reviewed by your team)</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Sources, period and limitations section</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Anomaly alerts from the four-week baseline (CPA, ROAS and CTR; CTR shown as &quot;CTR drop&quot;)</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Recommended actions from the alerts, for your approval</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Creative fatigue and winner analysis</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Budget pacing from the budget you supply (Growth and Scale only)</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">ROAS contribution by channel</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Spend-versus-revenue share by channel</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Target ROAS and target CPA lines</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Scale, fix and cut classes per campaign</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">MER, blended CAC and new-customer share</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Top-three campaign concentration</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Budget-shift recommendation, for your approval</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Campaign comparison: all campaigns side by side</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Side-by-side channel view</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">White-label branding on the cover (agency logo and colours)</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">CEO portfolio health rollup, sent to your CEO</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Account-manager talking points (internal only)</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center;"><span style="color: var(--success); font-weight: 700;">✓</span></td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Live ad-platform connection</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td></tr><tr><td style="padding: 12px 14px; font-weight: 600; color: #0f172a;">Automatic sending to Slack, Teams, Discord, WhatsApp or email</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td><td style="padding: 12px 14px; text-align: center; color: var(--text-secondary);">—</td></tr></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT US -->
+<section class="reveal" id="about">
+<div class="about-card">
+<figure class="photo-support"><img src="assets/workspace-board-1200.jpg" width="1200" height="800" loading="lazy" alt="A laptop screen showing a task board with columns for tickets, on a desk beside a keyboard and monitors."></figure>
+<div class="about-grid">
+<div class="about-text">
+<div class="section-eyebrow">About ReportDeck</div>
+<h3>A small team starting with a hands-on pilot.</h3>
+<p>
+Founder: Isaiah. We are starting with one agency, one client account and one completed reporting period, at no charge.
+</p>
+<p>
+We aim to reduce the repetitive part of agency reporting. The pilot will show what it takes in your team's time, and we don't assume a figure before then.
+</p>
+<div class="founder-note">
+"Our goal is simple: reduce the Monday reporting load for account managers."
+</div>
+</div>
+<div class="about-box-right">
+<h4>Our Security &amp; Reliability Standards</h4>
+<ul>
+<li>🔒 <strong>No credentials requested:</strong> no passwords, OAuth access or payment card data. Pilot inputs are aggregate campaign metrics only.</li>
+<li>⚡ <strong>Deterministic calculations:</strong> the same input gives the same numbers. Outputs still need human review.</li>
+<li>🛡️ <strong>Human approval:</strong> nothing goes to a client, and nothing changes in an ad account, without your team's approval.</li>
+<li>💬 <strong>Email support:</strong> response times agreed at onboarding.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ -->
+<section class="reveal" id="faq">
+<div class="section-header">
+<div class="section-eyebrow">Got Questions?</div>
+<h2>Frequently Asked Questions</h2>
+</div>
+<div class="faq-container">
+<div class="faq-item active">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>What exactly is the pilot?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>One agency, one client account and one completed reporting period, at no charge. You send aggregate campaign metrics using our template. We prepare a reviewed draft report and walk you through it. There is no automatic conversion to a paid plan.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>What do you need from us?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>Aggregate campaign metrics for one completed period, the period dates, currency (USD), timezone and the attribution basis your platforms used. Optional: a prior four-week baseline, budget and month-to-date spend. We don't ask for passwords, OAuth access, card details or customer-level personal data.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>Which ad platforms are supported?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>The pilot accepts exports for Meta Ads, Google Ads and TikTok Ads. Direct platform connections, GA4 and Shopify are not part of the pilot.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>How long does the pilot take?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>We agree the delivery window after reviewing your files and your reviewer's availability. We don't promise a fixed day or time.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>Can you send reports directly to clients or Slack?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>No. The pilot delivers a draft to your team, and your team decides what goes to clients. Automatic sending to Slack, Teams, Discord, WhatsApp or email is not offered.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>What do Growth and Scale add?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>Growth adds creative fatigue and winner analysis, budget pacing from the budget you supply (Growth and Scale only), ROAS contribution and spend-versus-revenue share by channel, target lines and classes when you supply a target, MER, blended CAC and new-customer share when you supply the totals, top-three concentration, and a budget-shift recommendation for your approval. Scale adds campaign comparison, a side-by-side channel view, and white-label branding. The account-manager talking points are internal only and never appear in a client deck. The CEO portfolio health rollup is sent to your CEO, separately from the deck.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>Is anything live today?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>This page is live. The pilot is delivered by hand from files you supply. No ad-platform connection, automatic sending or billing setup is live.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>Do you offer annual discounted pricing?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>Yes. In addition to flexible month-to-month retainers with no long-term lock-in, we offer an annual prepayment plan with a 20% discount. Starter is $1,000/mo ($12,000/yr), Growth is $1,560/mo ($18,720/yr), and Scale starts at $2,600/mo ($31,200/yr). It saves you between $3,000 and $7,800 per year.</div>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>What happens to our data?</span>
+<span class="faq-toggle">+</span>
+</div>
+<div class="faq-answer">
+<div>Aggregate metrics are kept in the pilot folder for the review period. Retention and deletion terms are confirmed in writing before you send any files.</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+    <footer>
+      <div class="container footer-content">
+        <div class="brand">
+          <div class="brand-logo" style="width: 28px; height: 28px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="3" width="15" height="11" rx="2" fill="white" fill-opacity="0.35"/>
+              <rect x="5" y="6" width="15" height="11" rx="2" fill="white" fill-opacity="0.6"/>
+              <rect x="8" y="9" width="14" height="12" rx="2.5" fill="white"/>
+              <path d="M11 15L13.5 12.5L16 15L19 11.5" stroke="#0f766e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span style="font-weight: 700;">ReportDeck</span>
+        </div>
+        <div class="footer-links">
+          <a href="#how-it-works">Product</a>
+          <a href="#deck-chooser" onclick="openDeckChooser(event)">Sample Report</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#about">About</a>
+          <a href="javascript:void(0)" onclick="openModal()">Direct contact: request a no-charge sample</a>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">
+          © 2026 ReportDeck. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- AUDIT MODAL -->
+  <div id="auditModal" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Request a no-charge sample</h3>
+      <p>One agency, one client account and one completed reporting period. Tell us a little about your agency, and we will prepare a draft from the files you send.</p>
+
+      <div style="text-align: center; margin-top: 8px;">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdI3FXp1cCaqXr_pTnZ8O4NHBoUWHDa4pVaeBCLeRAaZ0BkRw/viewform" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg" style="display: inline-block;">Request a pilot</a>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-top: 12px;">Submitting is a request only. It isn't confirmed until we reply.</p>
+        <div style="margin-top: 14px;"><button type="button" onclick="closeModal()" class="btn btn-outline" style="width: 100%; padding: 12px; margin-top: 8px;">
+          Cancel
+        </button></div>
+      </div>
+    </div>
+  </div>
+  <!-- SAMPLE DECK CHOOSER -->
+  <div id="deckChooser" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="deckChooserTitle" aria-describedby="deckChooserHelp">
+    <div class="modal-card">
+      <h3 id="deckChooserTitle">Sample client decks</h3>
+      <p id="deckChooserHelp">Choose one plan. Its sample deck opens in a new tab when you press the button.</p>
+      <fieldset class="deck-choices">
+        <legend class="deck-legend">Choose one sample deck</legend>
+        <label class="deck-choice"><input type="radio" name="deckTier" value="starter"><span>Starter sample: core report and anomaly alerts</span></label>
+        <label class="deck-choice"><input type="radio" name="deckTier" value="growth"><span>Growth sample: adds creative fatigue and winner analysis, and budget pacing</span></label>
+        <label class="deck-choice"><input type="radio" name="deckTier" value="scale"><span>Scale sample: adds white-label branding on the cover</span></label>
+      </fieldset>
+      <p id="deckChooserStatus" class="deck-status" aria-live="polite">Select one sample to continue.</p>
+      <button type="button" id="showDeckBtn" class="btn btn-primary btn-lg deck-show" disabled aria-describedby="deckChooserStatus" onclick="showSelectedDeck()">Show me this deck</button>
+      <div id="deckPreview" class="deck-preview" hidden>
+        <p id="deckPreviewName" class="deck-preview-name"></p>
+        <div id="deckPreviewImages"></div>
+        <p class="deck-preview-note">The full sample deck is sent with our reply after you choose a plan.</p>
+      </div>
+      <button type="button" id="deckCloseBtn" onclick="closeDeckChooser()" class="btn btn-outline deck-close">Close</button>
+    </div>
+  </div>
+  <script>
+    let currentBilling = 'monthly';
+    function setBilling(mode) {
+      if (currentBilling === mode) return;
+      toggleBilling();
+    }
+    function toggleBilling() {
+      const sw = document.getElementById('billingSwitch');
+      const lblM = document.getElementById('labelMonthly');
+      const lblA = document.getElementById('labelAnnual');
+      const starterP = document.getElementById('starterPrice');
+      const starterPer = document.getElementById('starterPeriod');
+      const growthP = document.getElementById('growthPrice');
+      const growthPer = document.getElementById('growthPeriod');
+      const scaleP = document.getElementById('scalePrice');
+      const scalePer = document.getElementById('scalePeriod');
+
+      if (currentBilling === 'monthly') {
+        currentBilling = 'annual';
+        sw.classList.add('annual');
+        lblM.classList.remove('active');
+        lblA.classList.add('active');
+
+        starterP.innerHTML = '$1,000';
+        starterPer.innerHTML = 'per month • Billed annually ($12,000/yr) • <strong style="color: #15803D;">Save $3,000</strong>';
+
+        growthP.innerHTML = '$1,560';
+        growthPer.innerHTML = 'per month • Billed annually ($18,720/yr) • <strong style="color: #15803D;">Save $4,680</strong>';
+
+        scaleP.innerHTML = '$2,600<span style="font-size: 20px; font-weight: 400; color: var(--text-muted);">+</span>';
+        scalePer.innerHTML = 'per month • Billed annually ($31,200/yr) • <strong style="color: #15803D;">Save $7,800</strong>';
+      } else {
+        currentBilling = 'monthly';
+        sw.classList.remove('annual');
+        lblM.classList.add('active');
+        lblA.classList.remove('active');
+
+        starterP.innerHTML = '$1,250';
+        starterPer.innerHTML = 'per month • Flat fee • Cancel anytime';
+
+        growthP.innerHTML = '$1,950';
+        growthPer.innerHTML = 'per month • Flat fee • Cancel anytime';
+
+        scaleP.innerHTML = '$3,250<span style="font-size: 20px; font-weight: 400; color: var(--text-muted);">+</span>';
+        scalePer.innerHTML = 'per month • Flat fee (+$65/acct above 50)';
+      }
+    }
+
+    function openModal() {
+      document.getElementById('auditModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('auditModal').style.display = 'none';
+    }
+    // each preview is a real page from that tier's deck (rendered from the tier PDF), with its sample labels
+    var DECK_PREVIEW = {
+      starter: {
+        name: 'Starter sample: core report and anomaly alerts',
+        images: [{ src: 'assets/preview-starter-alerts.png', alt: 'Starter sample: anomaly alerts page with CTR drop wording and sample labels' }]
+      },
+      growth: {
+        name: 'Growth sample: adds creative fatigue and winner analysis, and budget pacing',
+        images: [{ src: 'assets/preview-growth-fatigue.png', alt: 'Growth sample: creative fatigue and anomaly alerts page with sample labels' }]
+      },
+      scale: {
+        name: 'Scale sample: adds white-label branding on the cover',
+        images: [
+          { src: 'assets/preview-scale-campaigns.png', alt: 'Scale sample: campaign comparison page with sample labels' },
+          { src: 'assets/preview-scale-cover.png', alt: 'Scale sample: cover with white-label branding placeholders and sample labels' }
+        ]
+      }
+    };
+    function hideDeckPreview() {
+      var box = document.getElementById('deckPreview');
+      box.hidden = true;
+      document.getElementById('deckPreviewImages').innerHTML = '';
+    }
+    var deckTrigger = null;
+    function deckRadios() { return Array.prototype.slice.call(document.querySelectorAll('#deckChooser input[name="deckTier"]')); }
+    function selectedDeck() {
+      var r = document.querySelector('#deckChooser input[name="deckTier"]:checked');
+      return r ? r.value : null;
+    }
+    function updateDeckChooser() {
+      var v = selectedDeck();
+      var radios = deckRadios();
+      // roving tab stop: the chosen radio (or the first one) is the only radio in the Tab order
+      var stop = document.querySelector('#deckChooser input[name="deckTier"]:checked') || radios[0];
+      radios.forEach(function (r) { r.tabIndex = (r === stop) ? 0 : -1; });
+      var btn = document.getElementById('showDeckBtn');
+      btn.disabled = !v;
+      hideDeckPreview();
+      document.getElementById('deckChooserStatus').textContent = v
+        ? DECK_PREVIEW[v].name.split(':')[0] + ' selected. Press "Show me this deck" to see its cover preview.'
+        : 'Select one sample to continue.';
+    }
+    function openDeckChooser(e) {
+      if (e) { e.preventDefault(); }
+      var overlay = document.getElementById('deckChooser');
+      deckTrigger = document.activeElement;
+      deckRadios().forEach(function (r) { r.checked = false; });
+      updateDeckChooser();
+      hideDeckPreview();
+      overlay.style.display = 'flex';
+      deckRadios()[0].focus();
+    }
+    function closeDeckChooser() {
+      document.getElementById('deckChooser').style.display = 'none';
+      if (deckTrigger && deckTrigger.focus) { deckTrigger.focus(); }
+    }
+    function showSelectedDeck() {
+      var v = selectedDeck();
+      if (!v) { return; }
+      var p = DECK_PREVIEW[v];
+      var box = document.getElementById('deckPreviewImages');
+      box.innerHTML = '';
+      p.images.forEach(function (im) {
+        var img = document.createElement('img');
+        img.src = im.src;
+        img.alt = im.alt;
+        img.width = 1200;
+        img.height = 849;
+        img.loading = 'eager';
+        box.appendChild(img);
+      });
+      document.getElementById('deckPreviewName').textContent = p.name;
+      document.getElementById('deckPreview').hidden = false;
+      document.getElementById('deckChooserStatus').textContent = 'Preview shown for ' + p.name.split(':')[0] + '.';
+    }
+    (function () {
+      var overlay = document.getElementById('deckChooser');
+      deckRadios().forEach(function (r) { r.addEventListener('change', updateDeckChooser); });
+      overlay.addEventListener('click', function (e) { if (e.target === overlay) { closeDeckChooser(); } });
+      document.addEventListener('keydown', function (e) {
+        if (overlay.style.display !== 'flex') { return; }
+        if (e.key === 'Escape') { closeDeckChooser(); return; }
+        if (e.key === 'Tab') {
+          // focus order inside the chooser: the chosen radio, then the button if enabled, then Close
+          var order = [];
+          var stop = document.querySelector('#deckChooser input[name="deckTier"]:checked') || deckRadios()[0];
+          order.push(stop);
+          var btn = document.getElementById('showDeckBtn');
+          if (!btn.disabled) { order.push(btn); }
+          order.push(document.getElementById('deckCloseBtn'));
+          var first = order[0], last = order[order.length - 1];
+          if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        }
+      });
+    })();
+    function toggleFaq(el) {
+      const parent = el.parentElement;
+      parent.classList.toggle('active');
+    }
+  </script>
+  <script>
+    (function () {
+      var items = document.querySelectorAll('.reveal');
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!('IntersectionObserver' in window) || reduce) {
+        items.forEach(function (el) { el.classList.add('in-view'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>
