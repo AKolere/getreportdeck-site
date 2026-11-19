@@ -117,6 +117,28 @@
       color: var(--text-main);
     }
 
+    /* Phone menu button (hidden on desktop; shown at 868px and below when scripts run) */
+    .nav-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      margin-left: 10px;
+      margin-right: auto;
+      padding: 0;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .nav-menu-btn:focus-visible {
+      outline: 2px solid #0b5563;
+      outline-offset: 2px;
+    }
+
     .nav-cta-group {
       display: flex;
       align-items: center;
@@ -1169,6 +1191,27 @@
     @media (max-width: 868px) {
       h1 { font-size: 44px; }
       .nav-links { display: none; }
+      .js .nav-menu-btn { display: inline-flex; }
+      header.nav-open .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 8px 24px 16px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+      }
+      header.nav-open .nav-links a {
+        display: block;
+        padding: 12px 0;
+        font-size: 16px;
+        color: var(--text-main);
+      }
       .metrics-bar { grid-template-columns: repeat(2, 1fr); gap: 24px; }
       .steps-grid { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr; }
@@ -1260,7 +1303,13 @@
         <span class="brand-name">ReportDeck</span>
       </a>
 
-      <ul class="nav-links">
+      <button type="button" class="nav-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="site-nav-links">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <ul class="nav-links" id="site-nav-links">
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#sample-report">Sample Report</a></li>
         <li><a href="#pricing">Pricing</a></li>
@@ -1843,6 +1892,33 @@ We aim to reduce the repetitive part of agency reporting. The pilot will show wh
         });
       }, { threshold: 0.12 });
       items.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+  <script>
+    (function () {
+      var header = document.querySelector('header');
+      var btn = document.querySelector('.nav-menu-btn');
+      var links = document.getElementById('site-nav-links');
+      if (!header || !btn || !links) { return; }
+      function setOpen(open) {
+        header.classList.toggle('nav-open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      btn.addEventListener('click', function () {
+        setOpen(btn.getAttribute('aria-expanded') !== 'true');
+      });
+      links.addEventListener('click', function (e) {
+        if (e.target.closest('a')) { setOpen(false); }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { setOpen(false); btn.focus(); }
+      });
+      document.addEventListener('click', function (e) {
+        if (btn.getAttribute('aria-expanded') === 'true' && !header.contains(e.target)) { setOpen(false); }
+      });
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 868) { setOpen(false); }
+      });
     })();
   </script>
 </body>
