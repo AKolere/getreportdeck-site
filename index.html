@@ -38,6 +38,8 @@
 
     html {
       scroll-behavior: smooth;
+      /* menu jumps land below the sticky header; the script below sets the header's real height */
+      scroll-padding-top: var(--header-offset, 120px);
     }
 
     body {
@@ -1899,10 +1901,19 @@ We aim to reduce the repetitive part of agency reporting. The pilot will show wh
       var header = document.querySelector('header');
       var btn = document.querySelector('.nav-menu-btn');
       var links = document.getElementById('site-nav-links');
+      function setOffset() {
+        if (!header || header.classList.contains('nav-open')) { return; }
+        // + 16 px gap, + 24 px because a section not yet shown is still slid down 24 px (.reveal) when the jump starts
+        document.documentElement.style.setProperty('--header-offset', (header.offsetHeight + 40) + 'px');
+      }
+      setOffset();
+      window.addEventListener('load', setOffset);
+      window.addEventListener('resize', setOffset);
       if (!header || !btn || !links) { return; }
       function setOpen(open) {
         header.classList.toggle('nav-open', open);
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (!open) { setOffset(); }
       }
       btn.addEventListener('click', function () {
         setOpen(btn.getAttribute('aria-expanded') !== 'true');
